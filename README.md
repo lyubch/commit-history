@@ -87,3 +87,26 @@ That's all. You just need to wait for completion! After that you can access proj
 3. Change into main.local.php \<bitbucket-password\> to your Bitbucket password
 4. Change into main.local.php \<bitbucket-project-url\> to your Bitbucket project url.
 Project url should be like: https://bitbucket.org/<username\>/\<repo_slug\>
+
+## 3. RUN
+------------
+1. Manage environments
+   ```bash
+    #create environment
+    curl -i -X POST "http://commit-history.local/api/environments" -H  "accept: application/json" -H  "content-type: application/json" -d "{\"name\": \"production\", \"server_url\": \"http://my-server-url.com\", \"emails\": [\"my-email-1@gmail.com\", \"my-email-2@gmail.com\"]}"
+    #update environment by id
+    curl -i -X PUT "http://commit-history.local/api/environments/1" -H  "accept: application/json" -H  "content-type: application/json" -d "{\"name\": \"prod\"}"
+    #get list of all environments
+    curl -i -X GET "http://commit-history.local/api/environments"
+    #get environment by id
+    curl -i -X GET "http://commit-history.local/api/environments/1"
+    #delete environment by id
+    curl -i -X DELETE "http://commit-history.local/api/environments/1"
+   ```
+2. Manage emails
+   ```bash
+    #get email preview without updating database
+    curl -i -X GET "http://commit-history.local/api/emails/preview?env=prod&branch=master"
+    #send emails with updating database
+    curl -i -X POST "http://commit-history.local/api/emails/send" -H  "accept: application/json" -H  "content-type: application/json" -d "{\"env\": \"prod\", \"branch\": \"master\"}"
+   ```

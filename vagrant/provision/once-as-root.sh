@@ -44,9 +44,9 @@ apt-get upgrade -y
 
 info "Install additional software"
 apt-get install -y apache2
-apt-get install -y mysql-server-5.5
+apt-get install -y mysql-server-5.7
 apt-get install -y phpmyadmin
-apt-get install -y php5.6 php5.6-cli php5.6-common php5.6-mysql php5.6-curl php5.6-gd libpcre3-dev php5.6-json php5.6-mbstring php5.6-dom php5.6-zip unzip
+apt-get install -y php7.1 php7.1-cli php7.1-common php7.1-mysql php7.1-curl php7.1-gd libpcre3-dev php7.1-json php7.1-mbstring php7.1-dom php7.1-zip unzip php-phalcon
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 info "Configure Apache2"
@@ -75,6 +75,7 @@ sed -i "s/\$cfg\['SaveDir'\] = ''\;/\$cfg\['SaveDir'\] = ''\;\n\$cfg\['LoginCook
 sed -i "s/session.gc_maxlifetime = 1440/session.gc_maxlifetime = 172800/g" /etc/php/7.1/apache2/php.ini
 echo "Done!"
 
+
 info "Initailize databases for MySQL"
-mysql -uroot <<< "CREATE DATABASE commit-history"
+mysql -uroot <<< "CREATE DATABASE commit_history"
 echo "Done!"

@@ -2,13 +2,13 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-CREATE SCHEMA IF NOT EXISTS `commit-history` DEFAULT CHARACTER SET utf8 ;
-USE `commit-history` ;
+CREATE SCHEMA IF NOT EXISTS `commit_history` DEFAULT CHARACTER SET utf8 ;
+USE `commit_history`;
 
 -- -----------------------------------------------------
--- Table `commit-history`.`environments`
+-- Table `commit_history`.`environments`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `commit-history`.`environments` (
+CREATE TABLE IF NOT EXISTS `commit_history`.`environments` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `server_url` VARCHAR(100) NOT NULL,
@@ -17,9 +17,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `commit-history`.`commits`
+-- Table `commit_history`.`commits`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `commit-history`.`commits` (
+CREATE TABLE IF NOT EXISTS `commit_history`.`commits` (
   `id` VARCHAR(60) NOT NULL,
   `description` VARCHAR(255) NOT NULL,
   `url` VARCHAR(255) NOT NULL,
@@ -31,16 +31,16 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `commit-history`.`emails`
+-- Table `commit_history`.`emails`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `commit-history`.`emails` (
+CREATE TABLE IF NOT EXISTS `commit_history`.`emails` (
   `email` VARCHAR(100) NOT NULL,
   `env_id` INT(11) NOT NULL,
   PRIMARY KEY (`email`, `env_id`),
   INDEX `fk_emails_environments_idx` (`env_id` ASC),
   CONSTRAINT `fk_emails_environments`
     FOREIGN KEY (`env_id`)
-    REFERENCES `commit-history`.`environments` (`id`)
+    REFERENCES `commit_history`.`environments` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

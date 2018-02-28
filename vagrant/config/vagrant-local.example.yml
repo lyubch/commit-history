@@ -1,0 +1,22 @@
+# Guest OS timezone
+timezone: Europe/London
+
+# Are we need check box updates for every 'vagrant up'?
+box_check_update: false
+
+# Virtual machine name
+machine_name: commit-history
+
+# Virtual machine IP
+ip: 192.168.83.101
+
+# Virtual machine CPU cores number
+cpus: 1
+
+# Virtual machine RAM
+memory: 2048
+
+# Domains
+domains: {
+    app: 'commit-history.local'
+}

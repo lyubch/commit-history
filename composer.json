@@ -1,0 +1,30 @@
+{
+    "name": "lyubch/commit-history",
+    "description": "Commit History Example",
+    "type": "project",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Anton Lyubchenko",
+            "email": "anton.lyubch@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.1.0",
+        "yiisoft/yii": "1.1.*",
+        "sobit/swiftmailer-component": "5.1.0"
+    },
+    "config": {
+        "vendor-dir": "vendor"
+    },
+    "extra": {
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "optimize-autoloader": true
+    }
+}

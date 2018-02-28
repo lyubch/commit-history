@@ -1,0 +1,30 @@
+<?php
+
+// This is the local Web application configuration.
+$main   = require_once(__DIR__ . '/main.php');
+$config = CMap::mergeArray($main, array(
+        'modules' => array(
+            'gii' => array(
+                'class'     => 'system.gii.GiiModule',
+                'password'  => '12345',
+                'ipFilters' => array('127.0.0.1', '::1'),
+            ),
+        ),
+        'components' => array(
+            'bitbucket' => array(
+                // your login for bitbucket
+                'username'   => '<bitbucket-username>',
+                // your password for bitbucket
+                'password'   => '<bitbucket-password>',
+                // for ex https://bitbucket.org/<username>/<repo_slug>
+                'projectUrl' => '<bitbucket-project-url>',
+            ),
+        ),
+    ));
+
+if (YII_DEBUG) {
+    ini_set('display_errors', 1);
+    error_reporting(-1);
+}
+
+return $config;

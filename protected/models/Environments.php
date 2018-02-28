@@ -38,6 +38,7 @@ class Environments extends CActiveRecord
             array('name, server_url', 'required'),
             array('name', 'length', 'max' => 45),
             array('server_url', 'length', 'max' => 100),
+            array('server_url', 'url'),
             array('emails', 'type', 'type' => 'array'),
             array('emails', 'validateEmails'),
             // The following rule is used by search().

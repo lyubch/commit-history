@@ -44,7 +44,7 @@ That's all. You just need to wait for completion! After that you can access proj
 2. Install [Vagrant](https://www.vagrantup.com/downloads.html)
 3. Reboot
 4. Prepare project:
-   * download repo [phalcon-app](https://github.com/lyubch/commit-history/archive/master.zip)
+   * download repo [commit-history](https://github.com/lyubch/commit-history/archive/master.zip)
    * unzip it
    * go into directory `commit-history-master/vagrant/config`
    * copy `vagrant-local.example.yml` to `vagrant-local.yml`

@@ -3,7 +3,20 @@
     <br>
 </p>
 
-## Installing using Vagrant
+## 1. INSTALLATION
+-------------------
+
+### Installing using Git
+
+   ```bash
+    git clone https://github.com/lyubch/commit-history.git
+    cd commit-history
+    composer --no-progress --prefer-dist install
+    mysql -uroot <<< "CREATE DATABASE commit_history"
+    php protected/yiic migrate --interactive=0
+   ```
+
+### Installing using Vagrant
 
 This way is the easiest but long (~20 min).
 
@@ -62,3 +75,15 @@ That's all. You just need to wait for completion! After that you can access proj
 That's all. You just need to wait for completion! After that you can access project locally by URLs:
 * Application URL: http://commit-history.local
 * PhpMyAdmin URL: http://commit-history.local/phpmyadmin
+
+## 2. SETUP
+------------
+
+1. Copy main-local configs
+   ```bash
+    cp protected/config/main-local.dist protected/config/main-local.php
+   ```
+2. Change into main.local.php \<bitbucket-username\> to your Bitbucket login
+3. Change into main.local.php \<bitbucket-password\> to your Bitbucket password
+4. Change into main.local.php \<bitbucket-project-url\> to your Bitbucket project url.
+Project url should be like: https://bitbucket.org/<username\>/\<repo_slug\>

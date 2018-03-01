@@ -86,7 +86,7 @@ That's all. You just need to wait for completion! After that you can access proj
 2. Change into main.local.php \<bitbucket-username\> to your Bitbucket login
 3. Change into main.local.php \<bitbucket-password\> to your Bitbucket password
 4. Change into main.local.php \<bitbucket-project-url\> to your Bitbucket project url.
-Project url should be like: https://bitbucket.org/<username\>/\<repo_slug\>
+Project url should be like: `https://bitbucket.org/<username\>/\<repo_slug\>`
 
 ## 3. RUN
 ------------

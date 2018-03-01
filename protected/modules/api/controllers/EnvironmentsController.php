@@ -22,7 +22,7 @@ class EnvironmentsController extends ApiController
             'pagination' => false,
         ));
 
-        JSON::setResponceData($dataProvider, StatusCode::OK);
+        JSON::setResponceData($dataProvider, HttpCode::OK);
     }
 
     /**
@@ -32,7 +32,7 @@ class EnvironmentsController extends ApiController
     {
         $model = $this->getModel($id);
 
-        JSON::setResponceData($model, StatusCode::OK);
+        JSON::setResponceData($model, HttpCode::OK);
     }
 
     /**
@@ -44,10 +44,10 @@ class EnvironmentsController extends ApiController
         $model->setAttributes(JSON::getRequestData());
 
         if (!$model->save() && !$model->hasErrors()) {
-            throw new CException('Failed to create the object for unknown reason.', StatusCode::INTERNAL_SERVER_ERROR);
+            throw new CException('Failed to create the object for unknown reason.', HttpCode::INTERNAL_SERVER_ERROR);
         }
 
-        JSON::setResponceData($model, StatusCode::CREATED);
+        JSON::setResponceData($model, HttpCode::CREATED);
     }
 
     /**
@@ -59,10 +59,10 @@ class EnvironmentsController extends ApiController
         $model->setAttributes(JSON::getRequestData());
 
         if (!$model->save() && !$model->hasErrors()) {
-            throw new CException('Failed to update the object for unknown reason.', StatusCode::INTERNAL_SERVER_ERROR);
+            throw new CException('Failed to update the object for unknown reason.', HttpCode::INTERNAL_SERVER_ERROR);
         }
 
-        JSON::setResponceData($model, StatusCode::OK);
+        JSON::setResponceData($model, HttpCode::OK);
     }
 
     /**
@@ -71,9 +71,9 @@ class EnvironmentsController extends ApiController
     public function actionDelete($id)
     {
         if (!$this->getModel($id)->delete()) {
-            throw new CException('Failed to delete the object for unknown reason.', StatusCode::INTERNAL_SERVER_ERROR);
+            throw new CException('Failed to delete the object for unknown reason.', HttpCode::INTERNAL_SERVER_ERROR);
         }
 
-        JSON::setResponceData(null, StatusCode::NO_CONTENT);
+        JSON::setResponceData(null, HttpCode::NO_CONTENT);
     }
 }

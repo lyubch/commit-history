@@ -46,7 +46,7 @@ info "Install additional software"
 apt-get install -y apache2
 apt-get install -y mysql-server-5.7
 apt-get install -y phpmyadmin
-apt-get install -y php7.1 php7.1-cli php7.1-common php7.1-mysql php7.1-curl php7.1-gd libpcre3-dev php7.1-json php7.1-mbstring php7.1-dom php7.1-zip unzip
+apt-get install -y php5.6 php5.6-cli php5.6-common php5.6-mysql php5.6-curl php5.6-gd libpcre3-dev php5.6-json php5.6-mbstring php5.6-dom php5.6-zip unzip
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 info "Configure Apache2"
@@ -72,7 +72,7 @@ echo "Done!"
 info "Configure PhpMyAdmin"
 sed -i "s/\/\/ \$cfg\['Servers'\]\[\$i\]\['AllowNoPassword'\]/\$cfg\['Servers'\]\[\$i\]\['AllowNoPassword'\]/g" /etc/phpmyadmin/config.inc.php
 sed -i "s/\$cfg\['SaveDir'\] = ''\;/\$cfg\['SaveDir'\] = ''\;\n\$cfg\['LoginCookieValidity'\] = 172800\;/g" /etc/phpmyadmin/config.inc.php
-sed -i "s/session.gc_maxlifetime = 1440/session.gc_maxlifetime = 172800/g" /etc/php/7.1/apache2/php.ini
+sed -i "s/session.gc_maxlifetime = 1440/session.gc_maxlifetime = 172800/g" /etc/php/5.6/apache2/php.ini
 echo "Done!"
 
 

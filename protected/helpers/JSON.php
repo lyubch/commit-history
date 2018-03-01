@@ -42,14 +42,14 @@ class JSON extends CJSON
     /**
      * Throws response data to the end user and finish script.
      * @param mixed $data
-     * @param integer $statusCode
+     * @param integer $httpCode
      */
-    public static function setResponceData($data = null, $statusCode = StatusCode::OK)
+    public static function setResponceData($data = null, $httpCode = HttpCode::OK)
     {
         $data = static::serialize($data);
 
         header('Content-type: application/json');
-        self::http_response_code(isset($data['code']) ? $data['code'] : $statusCode);
+        self::http_response_code(isset($data['code']) ? $data['code'] : $httpCode);
 
         if ($data) {
             echo static::encode($data) . PHP_EOL;
@@ -69,7 +69,7 @@ class JSON extends CJSON
         if (function_exists('http_response_code')) {
             http_response_code($response_code);
         } elseif ($response_code !== null) {
-            $message = StatusCode::message($response_code);
+            $message = HttpCode::getDescription($response_code);
             if ($message) {
                 $protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0';
                 header($protocol . ' ' . $response_code . ' ' . $message);
@@ -115,7 +115,9 @@ class JSON extends CJSON
             $serializedData[] = static::serializeModel($model);
         }
 
-        return $serializedData;
+        return array(
+            'items' => $serializedData,
+        );
     }
 
     /**
@@ -131,15 +133,15 @@ class JSON extends CJSON
     /**
      * Returns serialized model errors.
      * @param CModel $model
-     * @param int $statusCode
+     * @param int $httpCode
      * @return array
      */
-    public static function serializeModelErrors($model, $statusCode = StatusCode::UNPROCESSABLE_ENTITY)
+    public static function serializeModelErrors($model, $httpCode = HttpCode::UNPROCESSABLE_ENTITY)
     {
         return array(
             'name'    => 'ModelError',
-            'code'    => $statusCode,
-            'message' => StatusCode::message($statusCode),
+            'code'    => $httpCode,
+            'message' => HttpCode::getDescription($httpCode),
             'fields'  => $model->getErrors(),
         );
     }
@@ -160,7 +162,7 @@ class JSON extends CJSON
         );
 
         if (!$result['code']) {
-            $result['code'] = StatusCode::BAD_REQUEST;
+            $result['code'] = HttpCode::BAD_REQUEST;
         }
 
         return $result;
@@ -182,7 +184,7 @@ class JSON extends CJSON
         );
 
         if (!$result['code']) {
-            $result['code'] = StatusCode::INTERNAL_SERVER_ERROR;
+            $result['code'] = HttpCode::INTERNAL_SERVER_ERROR;
         }
 
         return $result;

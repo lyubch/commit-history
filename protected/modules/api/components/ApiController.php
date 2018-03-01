@@ -33,7 +33,7 @@ class ApiController extends CController
      */
     public function actionList()
     {
-        throw new CException(Yii::t('yii', 'Your request is invalid.'), StatusCode::BAD_REQUEST);
+        throw new CException(Yii::t('yii', 'Your request is invalid.'));
     }
 
     /**
@@ -42,7 +42,7 @@ class ApiController extends CController
      */
     public function actionView($id)
     {
-        throw new CException(Yii::t('yii', 'Your request is invalid.'), StatusCode::BAD_REQUEST);
+        throw new CException(Yii::t('yii', 'Your request is invalid.'));
     }
 
     /**
@@ -51,7 +51,7 @@ class ApiController extends CController
      */
     public function actionCreate()
     {
-        throw new CException(Yii::t('yii', 'Your request is invalid.'), StatusCode::BAD_REQUEST);
+        throw new CException(Yii::t('yii', 'Your request is invalid.'));
     }
 
     /**
@@ -61,7 +61,7 @@ class ApiController extends CController
      */
     public function actionUpdate($id)
     {
-        throw new CException(Yii::t('yii', 'Your request is invalid.'), StatusCode::BAD_REQUEST);
+        throw new CException(Yii::t('yii', 'Your request is invalid.'));
     }
 
     /**
@@ -71,7 +71,7 @@ class ApiController extends CController
      */
     public function actionDelete($id)
     {
-        throw new CException(Yii::t('yii', 'Your request is invalid.'), StatusCode::BAD_REQUEST);
+        throw new CException(Yii::t('yii', 'Your request is invalid.'));
     }
 
     /**
@@ -84,7 +84,7 @@ class ApiController extends CController
         if ($this->getIsGetRequest()) {
             $filterChain->run();
         } else {
-            throw new CException(Yii::t('yii', 'Your request is invalid.'), StatusCode::BAD_REQUEST);
+            throw new CException(Yii::t('yii', 'Your request is invalid.'));
         }
     }
 
@@ -98,7 +98,7 @@ class ApiController extends CController
         if (Yii::app()->getRequest()->getIsPutRequest()) {
             $filterChain->run();
         } else {
-            throw new CException(Yii::t('yii', 'Your request is invalid.'), StatusCode::BAD_REQUEST);
+            throw new CException(Yii::t('yii', 'Your request is invalid.'));
         }
     }
 
@@ -112,7 +112,7 @@ class ApiController extends CController
         if (Yii::app()->getRequest()->getIsDeleteRequest()) {
             $filterChain->run();
         } else {
-            throw new CException(Yii::t('yii', 'Your request is invalid.'), StatusCode::BAD_REQUEST);
+            throw new CException(Yii::t('yii', 'Your request is invalid.'));
         }
     }
 
@@ -133,13 +133,14 @@ class ApiController extends CController
      */
     protected function getModel($id)
     {
-        if ($this->modelClass === null) {
-            throw new CException('Property `modelClass` can not be empty.', StatusCode::INTERNAL_SERVER_ERROR);
+        $modelClass = $this->modelClass;
+        if ($modelClass === null) {
+            throw new CException('Property `modelClass` can not be empty.', HttpCode::INTERNAL_SERVER_ERROR);
         }
 
-        $model = $this->modelClass::model()->findByPk($id);
+        $model = $modelClass::model()->findByPk($id);
         if ($model === null) {
-            throw new CException('Page not found.', StatusCode::NOT_FOUND);
+            throw new CException('Page not found.', HttpCode::NOT_FOUND);
         }
 
         return $model;

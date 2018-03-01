@@ -1,14 +1,13 @@
 <?php
 
 /**
- * StatusCode helper class file.
+ * HttpCode helper class file.
  */
-class StatusCode
+class HttpCode
 {
     /**
-     * Status codes
+     * Http codes
      */
-    const CONTINUE                             = 100;
     const SWITCHING_PROTOCOLS                  = 101;
     const PROCESSING                           = 102;
     const OK                                   = 200;
@@ -82,10 +81,9 @@ class StatusCode
     const NETWORK_CONNECT_TIMEOUT_ERROR        = 599;
 
     /**
-     * Status codes messages
+     * Http descriptions
      */
-    public static $messages = array(
-        self::CONTINUE                             => 'Continue',
+    public static $codes = array(
         self::SWITCHING_PROTOCOLS                  => 'Switching Protocols',
         self::PROCESSING                           => 'Processing',
         self::OK                                   => 'OK',
@@ -160,12 +158,15 @@ class StatusCode
     );
 
     /**
-     * Returns message for status code.
-     * @param int $statusCode
+     * Returns description for status code.
+     * @param int $httpCode
      * @return mixed
      */
-    public static function message($statusCode)
+    public static function getDescription($httpCode)
     {
-        return isset(static::$messages[$statusCode]) ? static::$messages[$statusCode] : null;
+        if (isset(self::$codes[$httpCode])) {
+            return sprintf('%d (%s)', $httpCode, self::$codes[$httpCode]);
+        }
+        return $httpCode;
     }
 }

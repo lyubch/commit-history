@@ -40,7 +40,7 @@ class EmailsController extends ApiController
 
         JSON::setResponceData(array(
             'html' => $html,
-        ), StatusCode::OK);
+        ), HttpCode::OK);
     }
 
     /**
@@ -75,9 +75,9 @@ class EmailsController extends ApiController
             $branch->last_loading_date = date('Y/m/d H:i:s');
             $branch->save(false);
 
-            JSON::setResponceData(null, StatusCode::NO_CONTENT);
+            JSON::setResponceData(null, HttpCode::NO_CONTENT);
         } else {
-            throw new CException('Failed to send emails for unknown reason.', StatusCode::INTERNAL_SERVER_ERROR);
+            throw new CException('Failed to send emails for unknown reason.', HttpCode::INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -125,7 +125,7 @@ class EmailsController extends ApiController
                 'task_id'     => $matches['task_id'],
             ));
             if (!$commit->validate()) {
-                throw new CException('Failed to build commits - validation error.', StatusCode::INTERNAL_SERVER_ERROR);
+                throw new CException('Failed to build commits - validation error.', HttpCode::INTERNAL_SERVER_ERROR);
             }
 
             $normalizedCommits[$commit->type][$commit->task_id] = $commit;

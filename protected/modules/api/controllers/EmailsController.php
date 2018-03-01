@@ -36,7 +36,7 @@ class EmailsController extends ApiController
         $branch      = $form->getBranch();
         $environment = $form->getEnvironment();
         $commits     = $this->getCommits($environment, $branch);
-        $html = $ms->getTemplate('commit-history', array(
+        $html        = $ms->getTemplate('commit-history', array(
             'environment' => $environment,
             'commits'     => $commits,
         ));

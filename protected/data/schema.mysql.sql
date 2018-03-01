@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `commit_history`.`commits` (
   `type` TINYINT(1) NOT NULL,
   `task_id` INT(11) NOT NULL,
   `env_id` INT(11) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`, `env_id`),
   INDEX `fk_commits_environments_idx` (`env_id` ASC),
   CONSTRAINT `fk_commits_environments`
     FOREIGN KEY (`env_id`)

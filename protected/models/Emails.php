@@ -34,7 +34,7 @@ class Emails extends CActiveRecord
             array('email', 'length', 'max' => 100),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('email, env_id', 'safe', 'on' => 'search'),
+            array('email, env_id', 'safe'),
         );
     }
 
@@ -46,7 +46,7 @@ class Emails extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'env' => array(self::BELONGS_TO, 'Environments', 'env_id'),
+            'environment' => array(self::BELONGS_TO, 'Environments', 'env_id'),
         );
     }
 

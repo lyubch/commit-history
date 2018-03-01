@@ -9,7 +9,8 @@
  * @property string $server_url
  *
  * The followings are the available model relations:
- * @property Emails[] $emails
+ * @property Emails[] $emailsList
+ * @property Commits[] $commitsList
  */
 class Environments extends CActiveRecord
 {
@@ -74,7 +75,9 @@ class Environments extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'emailsList' => array(self::HAS_MANY, 'Emails', 'env_id'),
+            'emailsList'  => array(self::HAS_MANY, 'Emails', 'env_id'),
+            'commitsList'  => array(self::HAS_MANY, 'Commits', 'env_id'),
+            'branchesList' => array(self::HAS_MANY, 'Branches', 'env_id'),
         );
     }
 
@@ -179,6 +182,12 @@ class Environments extends CActiveRecord
         parent::afterDelete();
 
         Emails::model()->deleteAll('env_id=:env_id', array(
+            ':env_id' => $this->id,
+        ));
+        Commits::model()->deleteAll('env_id=:env_id', array(
+            ':env_id' => $this->id,
+        ));
+        Branches::model()->deleteAll('env_id=:env_id', array(
             ':env_id' => $this->id,
         ));
     }

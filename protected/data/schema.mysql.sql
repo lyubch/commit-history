@@ -6,16 +6,6 @@ CREATE SCHEMA IF NOT EXISTS `commit_history` DEFAULT CHARACTER SET utf8 ;
 USE `commit_history`;
 
 -- -----------------------------------------------------
--- Table `commit_history`.`branches`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `commit_history`.`branches` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `last_loading_date` DATETIME NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
 -- Table `commit_history`.`environments`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `commit_history`.`environments` (
@@ -25,6 +15,21 @@ CREATE TABLE IF NOT EXISTS `commit_history`.`environments` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `commit_history`.`branches`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `commit_history`.`branches` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `last_loading_date` DATETIME NOT NULL,
+  `env_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_branches_environments`
+    FOREIGN KEY (`env_id`)
+    REFERENCES `commit_history`.`environments` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `commit_history`.`commits`
@@ -36,7 +41,13 @@ CREATE TABLE IF NOT EXISTS `commit_history`.`commits` (
   `date` DATETIME NOT NULL,
   `type` TINYINT(1) NOT NULL,
   `task_id` INT(11) NOT NULL,
-  PRIMARY KEY (`id`))
+  `env_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_commits_environments`
+    FOREIGN KEY (`env_id`)
+    REFERENCES `commit_history`.`environments` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 

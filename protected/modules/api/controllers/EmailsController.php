@@ -32,10 +32,13 @@ class EmailsController extends ApiController
             JSON::setResponceData($form);
         }
 
-        $ms = Yii::app()->mailSender;
+        $ms          = Yii::app()->mailSender;
+        $branch      = $form->getBranch();
+        $environment = $form->getEnvironment();
+        $commits     = $this->getCommits($environment, $branch);
         $html = $ms->getTemplate('commit-history', array(
-            'environment' => $form->getEnvironment(),
-            'commits'     => $this->getCommits($form->getBranch()),
+            'environment' => $environment,
+            'commits'     => $commits,
         ));
 
         JSON::setResponceData(array(
@@ -58,7 +61,7 @@ class EmailsController extends ApiController
         $ms          = Yii::app()->mailSender;
         $branch      = $form->getBranch();
         $environment = $form->getEnvironment();
-        $commits     = $this->getCommits($branch);
+        $commits     = $this->getCommits($environment, $branch);
         $ms->setTemplate('commit-history', array(
             'environment' => $environment,
             'commits'     => $commits,
@@ -83,11 +86,12 @@ class EmailsController extends ApiController
 
     /**
      * Returns list of all new commits.
-     * @param string $branch
+     * @param Environments $environment
+     * @param Branches $branch
      * @return array
      * @throws CException
      */
-    protected function getCommits($branch)
+    protected function getCommits($environment, $branch)
     {
         $commits = Yii::app()->bitbucket->getCommits($branch->name, $branch->getDateLimit());
         $params = Yii::app()->params;
@@ -109,8 +113,9 @@ class EmailsController extends ApiController
                 $matches[$parseMatches[$k]] = $v;
             }
 
-            if (Commits::model()->exists('id=:id', array(
-                ':id' => $value['hash'],
+            if (Commits::model()->exists('id=:id AND env_id=:env_id', array(
+                ':id'     => $value['hash'],
+                ':env_id' => $environment->id,
             ))) {
                 continue;
             }
@@ -123,6 +128,7 @@ class EmailsController extends ApiController
                 'date'        => $value['date'],
                 'type'        => isset($matches['type']) ? Commits::typeId($matches['type']) : Commits::TYPE_CHANGE,
                 'task_id'     => $matches['task_id'],
+                'env_id'      => $environment->id,
             ));
             if (!$commit->validate()) {
                 throw new CException('Failed to build commits - validation error.', HttpCode::INTERNAL_SERVER_ERROR);

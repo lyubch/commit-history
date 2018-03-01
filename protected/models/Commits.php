@@ -10,6 +10,7 @@
  * @property string $date
  * @property integer $type
  * @property integer $task_id
+ * @property integer $env_id
  */
 class Commits extends CActiveRecord
 {
@@ -36,15 +37,15 @@ class Commits extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id, description, url, date, type, task_id', 'required'),
+            array('id, description, url, date, type, task_id, env_id', 'required'),
             array('id', 'length', 'max' => 60),
-            array('type, task_id', 'numerical', 'integerOnly' => true),
+            array('type, task_id, env_id', 'numerical', 'integerOnly' => true),
             array('description', 'length', 'max' => 255),
             array('url', 'length', 'max' => 255),
             array('type', 'in', 'range' => array_keys(static::types())),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, description, url, date, type, task_id', 'safe', 'on' => 'search'),
+            array('id, description, url, date, type, task_id, env_id', 'safe'),
         );
     }
 
@@ -56,6 +57,7 @@ class Commits extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+            'environment' => array(self::BELONGS_TO, 'Environments', 'env_id'),
         );
     }
 
@@ -71,6 +73,7 @@ class Commits extends CActiveRecord
             'date'        => 'Date',
             'type'        => 'Type',
             'task_id'     => 'Task',
+            'env_id'      => 'Environment',
         );
     }
 
@@ -98,6 +101,7 @@ class Commits extends CActiveRecord
         $criteria->compare('date', $this->date, true);
         $criteria->compare('type', $this->type);
         $criteria->compare('task_id', $this->task_id);
+        $criteria->compare('env_id', $this->env_id);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

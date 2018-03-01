@@ -60,12 +60,15 @@ class EmailsForm extends CFormModel
     public function getBranch()
     {
         if ($this->_branch === null) {
-            $this->_branch = Branches::model()->find('name=:name', array(
-                ':name' => $this->branch,
+            $environment   = $this->getEnvironment();
+            $this->_branch = Branches::model()->find('name=:name AND env_id=:env_id', array(
+                ':name'   => $this->branch,
+                ':env_id' => $environment->id,
             ));
             if ($this->_branch === null) {
                 $this->_branch       = new Branches();
-                $this->_branch->name = $this->branch;
+                $this->_branch->name   = $this->branch;
+                $this->_branch->env_id = $environment->id;
             }
         }
 

@@ -3,7 +3,7 @@
     <br>
 </p>
 
-Note: The application was tested with Ubuntu 16.04 + PHP (5.6, 7.1, 7.2) + MySQL 5.7 + Apache 2.
+Note: The application was tested with Ubuntu (14.04, 16.04) + PHP (5.6, 7.1, 7.2) + MySQL 5.7 + Apache 2.
 
 ## 1. INSTALLATION
 -------------------

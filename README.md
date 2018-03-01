@@ -6,7 +6,7 @@
 ## 1. INSTALLATION
 -------------------
 
-### Installing using Git
+### Installing manually
 
    ```bash
     git clone https://github.com/lyubch/commit-history.git
@@ -79,14 +79,15 @@ That's all. You just need to wait for completion! After that you can access proj
 ## 2. SETUP
 ------------
 
-1. Copy main-local configs
+1. Create local configs file
    ```bash
     cp protected/config/main-local.dist protected/config/main-local.php
    ```
-2. Change into main.local.php \<bitbucket-key\> to your Bitbucket client key. See more [oauth-on-bitbucket-cloud](https://confluence.atlassian.com/bitbucket/oauth-on-bitbucket-cloud-238027431.html)
-3. Change into main.local.php \<bitbucket-secret\> to your Bitbucket client secret. See more [oauth-on-bitbucket-cloud](https://confluence.atlassian.com/bitbucket/oauth-on-bitbucket-cloud-238027431.html)
-4. Change into main.local.php \<bitbucket-project-url\> to your Bitbucket project url.
-Project url should be like: https://bitbucket.org/<username\>/\<repo_slug\>
+
+2. Change into `main.local.php` the string `<bitbucket-key>` to your Bitbucket client key. See more [oauth-on-bitbucket-cloud](https://confluence.atlassian.com/bitbucket/oauth-on-bitbucket-cloud-238027431.html)
+3. Change into `main.local.php` the string `<bitbucket-secret>` to your Bitbucket client secret. See more [oauth-on-bitbucket-cloud](https://confluence.atlassian.com/bitbucket/oauth-on-bitbucket-cloud-238027431.html)
+4. Change into `main.local.php` the string `<bitbucket-project-url>` to your Bitbucket project url.
+Project url should be like: `https://bitbucket.org/<username>/<repo_slug>`
 
 ## 3. RUN
 ------------

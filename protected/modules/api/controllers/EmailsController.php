@@ -35,7 +35,7 @@ class EmailsController extends ApiController
         $ms = Yii::app()->mailSender;
         $html = $ms->getTemplate('commit-history', array(
             'environment' => $form->getEnvironment(),
-            'commits'     => $this->getCommits($form->branch),
+            'commits'     => $this->getCommits($form->getBranch()),
         ));
 
         JSON::setResponceData(array(
@@ -56,7 +56,8 @@ class EmailsController extends ApiController
         }
 
         $ms      = Yii::app()->mailSender;
-        $commits = $this->getCommits($form->branch);
+        $branch  = $form->getBranch();
+        $commits = $this->getCommits($branch);
         $ms->setTemplate('commit-history', array(
             'environment' => $form->getEnvironment(),
             'commits'     => $commits,
@@ -69,6 +70,10 @@ class EmailsController extends ApiController
                     $commit->save(false);
                 }
             }
+            // save branch
+            $branch->last_loading_date = date('Y/m/d H:i:s');
+            $branch->save(false);
+
             JSON::setResponceData(null, StatusCode::NO_CONTENT);
         } else {
             throw new CException('Failed to send emails for unknown reason.', StatusCode::INTERNAL_SERVER_ERROR);
@@ -81,44 +86,42 @@ class EmailsController extends ApiController
      * @return array
      * @throws CException
      */
-    protected function getCommits($branch = null)
+    protected function getCommits($branch)
     {
-        $commits = Yii::app()->bitbucket->getCommits($branch);
-        // set all dates as DateTime object.
-        foreach ($commits['values'] as &$value) {
-            $value['date'] = new DateTime($value['date']);
-        }
-        // If it’s first time loading and the last loading date isn’t
-        // specified we need to get commits from two weeks ago.
-        if (!Commits::model()->count()) {
-            $limit = new DateTime('-2 weeks');
-            foreach ($commits['values'] as $key => $value) {
-                if ($value['date'] < $limit) {
-                    unset($commits['values'][$key]);
-                }
-            }
+        $commits = Yii::app()->bitbucket->getCommits($branch->name, $branch->getDateLimit());
+        $params = Yii::app()->params;
+        if (isset($params['parse-commit-message'])) {
+            $parsePattern = $params['parse-commit-message']['pattern'];
+            $parseMatches = $params['parse-commit-message']['matches'];
         }
 
         $normalizedCommits = array();
         foreach (array_reverse($commits['values']) as $value) {
-            if (!preg_match('/\s*(F|C|D)#(\d+)\s*-\s*(.+)/', $value['message'], $matches)) {
+            if (isset($parsePattern) && !preg_match($parsePattern, $value['message'], $matches)) {
                 continue;
+            }
+            // replace matches keys
+            foreach ($matches as $k => $v) {
+                if (!isset($parseMatches[$k])) {
+                    continue;
+                }
+                $matches[$parseMatches[$k]] = $v;
             }
 
             if (Commits::model()->exists('id=:id', array(
-                    ':id' => $value['hash'],
-                ))) {
+                ':id' => $value['hash'],
+            ))) {
                 continue;
             }
 
             $commit = new Commits();
             $commit->setAttributes(array(
                 'id'          => $value['hash'],
-                'description' => $matches[3],
+                'description' => $matches['description'],
                 'url'         => $value['links']['html']['href'],
                 'date'        => $value['date'],
-                'type'        => Commits::typeId($matches[1]),
-                'task_id'     => $matches[2],
+                'type'        => isset($matches['type']) ? Commits::typeId($matches['type']) : Commits::TYPE_CHANGE,
+                'task_id'     => $matches['task_id'],
             ));
             if (!$commit->validate()) {
                 throw new CException('Failed to build commits - validation error.', StatusCode::INTERNAL_SERVER_ERROR);

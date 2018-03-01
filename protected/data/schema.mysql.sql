@@ -6,6 +6,16 @@ CREATE SCHEMA IF NOT EXISTS `commit_history` DEFAULT CHARACTER SET utf8 ;
 USE `commit_history`;
 
 -- -----------------------------------------------------
+-- Table `commit_history`.`branches`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `commit_history`.`branches` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `last_loading_date` DATETIME NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `commit_history`.`environments`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `commit_history`.`environments` (
@@ -42,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `commit_history`.`emails` (
     FOREIGN KEY (`env_id`)
     REFERENCES `commit_history`.`environments` (`id`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 

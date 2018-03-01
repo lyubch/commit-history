@@ -17,7 +17,7 @@ class Environments extends CActiveRecord
      * Emails for save.
      * @var array
      */
-    public $emails = array();
+    public $emails;
 
     /**
      * @return string the associated database table name
@@ -36,6 +36,7 @@ class Environments extends CActiveRecord
         // will receive user inputs.
         return array(
             array('name, server_url', 'required'),
+            array('name', 'unique'),
             array('name', 'length', 'max' => 45),
             array('server_url', 'length', 'max' => 100),
             array('server_url', 'url'),
@@ -54,6 +55,10 @@ class Environments extends CActiveRecord
      */
     public function validateEmails($attribute, $params)
     {
+        if (!is_array($this->$attribute)) {
+            return;
+        }
+        
         foreach ($this->$attribute as $key => $value) {
             if (!preg_match('/^[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/', $value)) {
                 $this->addError($attribute, Yii::t('yii', "{$attribute}[{$key}] is not a valid email address."));
@@ -136,6 +141,16 @@ class Environments extends CActiveRecord
     /**
      * @inheritdoc
      */
+    public function afterFind()
+    {
+        parent::afterFind();
+        
+        $this->emails = $this->getEmailsList();
+    }
+    
+    /**
+     * @inheritdoc
+     */
     public function afterSave()
     {
         parent::afterSave();
@@ -146,11 +161,13 @@ class Environments extends CActiveRecord
             ));
         }
 
-        foreach ($this->emails as $mail) {
-            $email         = new Emails();
-            $email->email  = $mail;
-            $email->env_id = $this->id;
-            $email->save(false);
+        if (is_array($this->emails)) {
+            foreach ($this->emails as $mail) {
+                $email         = new Emails();
+                $email->email  = $mail;
+                $email->env_id = $this->id;
+                $email->save(false);
+            }
         }
     }
 

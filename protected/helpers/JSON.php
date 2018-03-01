@@ -52,7 +52,7 @@ class JSON extends CJSON
         self::http_response_code(isset($data['code']) ? $data['code'] : $statusCode);
 
         if ($data) {
-            echo static::encode($data);
+            echo static::encode($data) . PHP_EOL;
         }
 
         Yii::app()->end();

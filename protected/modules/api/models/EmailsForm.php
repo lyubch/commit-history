@@ -20,6 +20,11 @@ class EmailsForm extends CFormModel
      * @var Environments
      */
     private $_environment;
+    /**
+     * Branch related model.
+     * @var Branches
+     */
+    private $_branch;
 
     /**
      * @inheritdoc
@@ -27,7 +32,7 @@ class EmailsForm extends CFormModel
     public function rules()
     {
         return array(
-            array('env', 'required'),
+            array('env, branch', 'required'),
             array('env', 'exist', 'attributeName' => 'name', 'className' => 'Environments'),
             array('env, branch', 'safe'),
         );
@@ -46,5 +51,24 @@ class EmailsForm extends CFormModel
         }
 
         return $this->_environment;
+    }
+
+    /**
+     * Returns branch related model.
+     * @return Branches
+     */
+    public function getBranch()
+    {
+        if ($this->_branch === null) {
+            $this->_branch = Branches::model()->find('name=:name', array(
+                ':name' => $this->branch,
+            ));
+            if ($this->_branch === null) {
+                $this->_branch       = new Branches();
+                $this->_branch->name = $this->branch;
+            }
+        }
+
+        return $this->_branch;
     }
 }

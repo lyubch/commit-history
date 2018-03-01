@@ -20,6 +20,16 @@ $config = CMap::mergeArray($main, array(
                 'projectUrl' => '<bitbucket-project-url>',
             ),
         ),
+        'params' => array(
+            'parse-commit-message' => array(
+                'pattern' => '/\s*(F|C|D)#(\d+)\s*-\s*(.+)/',
+                'matches' => array(
+                    1 => 'type',
+                    2 => 'task_id',
+                    3 => 'description',
+                ),
+            ),
+        ),
     ));
 
 if (YII_DEBUG) {

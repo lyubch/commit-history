@@ -52,16 +52,27 @@ class Bitbucket extends CApplicationComponent
     /**
      * Returns `commits` response from Bitbucket API.
      * @param string $branch
+     * @param DateTime $dateLimit
      * @return array
      * @throws CException
      */
-    public function getCommits($branch = null)
+    public function getCommits($branch, $dateLimit)
     {
-        $url = $this->baseUrl . '/repositories/' . $this->_username . '/' . $this->_repository . '/commits';
-        if ($branch) {
-            $url .= '/' . $branch;
-        }
+        $url = $this->baseUrl . '/repositories/' . $this->_username . '/' . $this->_repository . '/commits/' . $branch;
 
+        return $this->sendRequest($url, $dateLimit);
+    }
+
+    /**
+     * Sends recursive request for all pages to get all commits relevant
+     * to date limit.
+     * @param string $url
+     * @param DateTime $dateLimit
+     * @return array
+     * @throws CException
+     */
+    private function sendRequest($url, $dateLimit)
+    {
         $ch     = curl_init();
         curl_setopt_array($ch, array(
             CURLOPT_URL            => $url,
@@ -80,9 +91,30 @@ class Bitbucket extends CApplicationComponent
             throw new CException($result['error']['message']);
         }
 
+        // check date is greater than date limit
+        $allowContinue = true;
+        foreach ($result['values'] as $key => &$value) {
+            if ($allowContinue) {
+                $value['date'] = new DateTime($value['date']);
+                if ($value['date'] < $dateLimit) {
+                    $allowContinue = false;
+                    unset($result['values'][$key]);
+                }
+            } else {
+                unset($result['values'][$key]);
+            }
+        }
+        // run recursive
+        if (isset($result['next']) && $allowContinue) {
+            $result['values'] = array_merge($result['values'], $this->sendRequest($result['next'], $dateLimit)['values']);
+            unset($result['next']);
+        }
+        // update total count
+        $result['pagelen'] = count($result['values']);
+
         return $result;
     }
-
+    
     /**
      * Sets project url. Like https://bitbucket.org/<username>/<repo_slug>
      * @param string $projectUrl

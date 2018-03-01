@@ -12,10 +12,10 @@ $config = CMap::mergeArray($main, array(
         ),
         'components' => array(
             'bitbucket' => array(
-                // your login for bitbucket
-                'username'   => '<bitbucket-username>',
-                // your password for bitbucket
-                'password'   => '<bitbucket-password>',
+                // your bitbucket client key
+                'key'        => '<bitbucket-key>',
+                // your bitbucket client secret
+                'secret'     => '<bitbucket-secret>',
                 // for ex https://bitbucket.org/<username>/<repo_slug>
                 'projectUrl' => '<bitbucket-project-url>',
             ),

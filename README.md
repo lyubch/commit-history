@@ -83,8 +83,8 @@ That's all. You just need to wait for completion! After that you can access proj
    ```bash
     cp protected/config/main-local.dist protected/config/main-local.php
    ```
-2. Change into main.local.php \<bitbucket-username\> to your Bitbucket login
-3. Change into main.local.php \<bitbucket-password\> to your Bitbucket password
+2. Change into main.local.php \<bitbucket-key\> to your Bitbucket client key. See more [oauth-on-bitbucket-cloud](https://confluence.atlassian.com/bitbucket/oauth-on-bitbucket-cloud-238027431.html)
+3. Change into main.local.php \<bitbucket-secret\> to your Bitbucket client secret. See more [oauth-on-bitbucket-cloud](https://confluence.atlassian.com/bitbucket/oauth-on-bitbucket-cloud-238027431.html)
 4. Change into main.local.php \<bitbucket-project-url\> to your Bitbucket project url.
 Project url should be like: https://bitbucket.org/<username\>/\<repo_slug\>
 

@@ -55,15 +55,16 @@ class EmailsController extends ApiController
             JSON::setResponceData($form);
         }
 
-        $ms      = Yii::app()->mailSender;
-        $branch  = $form->getBranch();
-        $commits = $this->getCommits($branch);
+        $ms          = Yii::app()->mailSender;
+        $branch      = $form->getBranch();
+        $environment = $form->getEnvironment();
+        $commits     = $this->getCommits($branch);
         $ms->setTemplate('commit-history', array(
-            'environment' => $form->getEnvironment(),
+            'environment' => $environment,
             'commits'     => $commits,
         ));
 
-        if ($ms->send($form->getEnvironment()->getEmailsList())) {
+        if ($ms->send($environment->getEmailsList())) {
             // save commits
             foreach ($commits as $types) {
                 foreach ($types as $commit) {

@@ -46,7 +46,7 @@ info "Install additional software"
 apt-get install -y apache2
 apt-get install -y mysql-server-5.7
 apt-get install -y phpmyadmin
-apt-get install -y php7.1 php7.1-cli php7.1-common php7.1-mysql php7.1-curl php7.1-gd libpcre3-dev php7.1-json php7.1-mbstring php7.1-dom php7.1-zip unzip php-phalcon
+apt-get install -y php7.1 php7.1-cli php7.1-common php7.1-mysql php7.1-curl php7.1-gd libpcre3-dev php7.1-json php7.1-mbstring php7.1-dom php7.1-zip unzip
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 info "Configure Apache2"

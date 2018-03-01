@@ -19,6 +19,7 @@ return array(
         'bitbucket'    => array(
             'class'   => 'application.components.bitbucket.Bitbucket',
             'baseUrl' => 'https://api.bitbucket.org/2.0',
+            'authUrl' => 'https://bitbucket.org/site/oauth2/access_token',
         ),
         'mailer'       => array(
             'class'         => 'vendor.sobit.swiftmailer-component.SwiftMailerComponent',

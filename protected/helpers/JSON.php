@@ -153,11 +153,17 @@ class JSON extends CJSON
     {
         $exception = $event->exception;
 
-        return array(
+        $result = array(
             'name'    => get_class($event->exception),
             'code'    => property_exists($exception, 'statusCode') ? $exception->statusCode : $exception->getCode(),
             'message' => $exception->getMessage(),
         );
+
+        if (!$result['code']) {
+            $result['code'] = StatusCode::BAD_REQUEST;
+        }
+
+        return $result;
     }
 
     /**
@@ -167,12 +173,18 @@ class JSON extends CJSON
      */
     public static function serializeError($event)
     {
-        return array(
+        $result = array(
             'name'    => 'Error',
             'code'    => $event->code,
             'message' => $event->message,
             'file'    => $event->file,
             'line'    => $event->line,
         );
+
+        if (!$result['code']) {
+            $result['code'] = StatusCode::INTERNAL_SERVER_ERROR;
+        }
+
+        return $result;
     }
 }

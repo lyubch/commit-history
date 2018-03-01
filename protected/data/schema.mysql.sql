@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `commit_history`.`branches` (
   `last_loading_date` DATETIME NOT NULL,
   `env_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
+  INDEX `fk_branches_environments_idx` (`env_id` ASC),
   CONSTRAINT `fk_branches_environments`
     FOREIGN KEY (`env_id`)
     REFERENCES `commit_history`.`environments` (`id`)
@@ -43,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `commit_history`.`commits` (
   `task_id` INT(11) NOT NULL,
   `env_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
+  INDEX `fk_commits_environments_idx` (`env_id` ASC),
   CONSTRAINT `fk_commits_environments`
     FOREIGN KEY (`env_id`)
     REFERENCES `commit_history`.`environments` (`id`)

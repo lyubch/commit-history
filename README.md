@@ -6,7 +6,7 @@
 ## 1. INSTALLATION
 -------------------
 
-### Installing using Git
+### Installing manually
 
    ```bash
     git clone https://github.com/lyubch/commit-history.git

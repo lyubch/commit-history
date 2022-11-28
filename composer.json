@@ -24,7 +24,6 @@
         }
     },
     "config": {
-        "preferred-install": "dist",
         "optimize-autoloader": true
     }
 }

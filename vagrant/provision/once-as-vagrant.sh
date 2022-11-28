@@ -14,7 +14,7 @@ info "Provision-script user: `whoami`"
 
 info "Install project dependencies"
 cd /app
-composer --no-progress --prefer-dist install
+composer --no-progress install
 
 info "Apply migrations"
 php protected/yiic migrate --interactive=0

@@ -37,7 +37,6 @@ echo "Done!"
 
 info "Add external repositories"
 add-apt-repository -y ppa:nijel/phpmyadmin
-apt-get install -y python-software-properties
 add-apt-repository -y ppa:ondrej/php
 apt-get update
 apt-get upgrade -y
@@ -79,3 +78,14 @@ echo "Done!"
 info "Initailize databases for MySQL"
 mysql -uroot <<< "CREATE DATABASE commit_history"
 echo "Done!"
+
+info "Change composer version (required for php5.6)"
+composer self-update --2.2
+
+info "Change php version"
+update-alternatives --set php /usr/bin/php5.6
+a2dismod php8.1
+a2enmod php5.6
+
+info "Restart web-server"
+service apache2 restart

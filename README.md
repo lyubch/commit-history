@@ -3,7 +3,7 @@
     <br>
 </p>
 
-Note: The application was tested with Ubuntu (14.04, 16.04) + PHP (5.6, 7.1, 7.2) + MySQL 5.7 + Apache 2.
+Note: The application was tested with Ubuntu (18.04) + PHP (5.6, 7.1, 7.2) + MySQL 5.7 + Apache 2.
 
 ## 1. INSTALLATION
 -------------------
@@ -24,7 +24,7 @@ This way is the easiest but long (~20 min).
 
 **This installation way doesn't require pre-installed software (such as web-server, PHP, MySQL etc.)** - just do next steps!
 
-Note: The application will run with Ubuntu 16.04 + PHP 5.6 + MySQL 5.7 + Apache 2 + PhpMyAdmin 4.6.
+Note: The application will run with Ubuntu 18.04 + PHP 5.6 + MySQL 5.7 + Apache 2 + PhpMyAdmin 4.6.
 
 #### Manual for Linux/Unix users
 
